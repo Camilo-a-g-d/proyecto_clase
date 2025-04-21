@@ -1,3 +1,8 @@
+<%@ page import="java.util.*, com.mycompany.odontologia.*" %>
+<%
+    TurnoDAO turnoDAO = new TurnoDAO();
+    List<Turno> turnos = turnoDAO.listarTurnos();
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -106,14 +111,32 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <p class="mb-0">
-                                    This page is an example of using static navigation. By removing the
-                                    <code>.sb-nav-fixed</code>
-                                    class from the
-                                    <code>body</code>
-                                    , the top navigation and side navigation will become static on scroll. Scroll down this page to see an example.
-                                </p>
-                            </div>
+                       <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Paciente</th>
+                                <th>Odontólogo</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                for (Turno t : turnos) {
+                            %>
+                            <tr>
+                                <td><%= t.getFecha() %></td>
+                                <td><%= t.getHora() %></td>
+                                <td><%= t.getPaciente().getNombre() %></td>
+                                <td><%= t.getOdontologo().getNombre() %></td>
+                                <td><%= t.getEstado() %></td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
                         </div>
                         <div style="height: 100vh"></div>
                         <div class="card mb-4"><div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div></div>

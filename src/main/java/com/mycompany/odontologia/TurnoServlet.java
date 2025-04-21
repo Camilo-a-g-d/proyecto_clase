@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@WebServlet("/crearTurno")
 public class TurnoServlet extends HttpServlet {
 
     /**
@@ -48,6 +47,48 @@ public class TurnoServlet extends HttpServlet {
         TurnoDAO dao = new TurnoDAO();
         dao.guardarTurno(turno);
 
-        resp.sendRedirect("pages/Dashboard.jsp"); // o donde quieras redirigir
+        resp.sendRedirect("ccitas.jsp"); 
     }
+
+
+@WebServlet("/editarTurno")
+public class TurnoeServlet extends HttpServlet {
+
+        /**
+         *
+         * @param req
+         * @param resp
+         * @throws ServletException
+         * @throws IOException
+         */
+        @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException {
+
+        int id = Integer.parseInt(req.getParameter("id"));
+        LocalDate fecha = LocalDate.parse(req.getParameter("fecha"));
+        LocalTime hora = LocalTime.parse(req.getParameter("hora"));
+        int pacienteId = Integer.parseInt(req.getParameter("paciente"));
+        int odontologoId = Integer.parseInt(req.getParameter("odontologo"));
+        String estado = req.getParameter("estado");
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my_persistence_unit");
+            try (EntityManager em = emf.createEntityManager()) {
+                Turno turno = em.find(Turno.class, id);
+                Paciente paciente = em.find(Paciente.class, pacienteId);
+                Odontologo odontologo = em.find(Odontologo.class, odontologoId);
+                
+                em.getTransaction().begin();
+                turno.setFecha(fecha);
+                turno.setHora(hora);
+                turno.setPaciente(paciente);
+                turno.setOdontologo(odontologo);
+                turno.setEstado(estado);
+                em.getTransaction().commit();
+            }
+
+        resp.sendRedirect("bcitas.jsp");
+        
+    }
+}
 }

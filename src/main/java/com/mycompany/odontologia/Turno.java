@@ -53,6 +53,8 @@ public void setPaciente(Paciente paciente) {
     this.paciente = paciente;
 }
 
+public int getId() { return id; }
+
 // También incluye los getters si aún no los tienes:
 public LocalDate getFecha() {
     return fecha;

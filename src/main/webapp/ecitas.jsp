@@ -1,3 +1,14 @@
+<%@ page import="com.mycompany.odontologia.*, java.util.List" %>
+<%
+    Turno turno = (Turno) request.getAttribute("turno");
+    List<Paciente> pacientes = (List<Paciente>) request.getAttribute("pacientes");
+    List<Odontologo> odontologos = (List<Odontologo>) request.getAttribute("odontologos");
+
+    if (turno == null) {
+        out.println("<div class='alert alert-danger'>Turno no encontrado. Asegúrate de acceder desde el botón 'Editar' en el listado.</div>");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -106,13 +117,48 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <p class="mb-0">
-                                    This page is an example of using static navigation. By removing the
-                                    <code>.sb-nav-fixed</code>
-                                    class from the
-                                    <code>body</code>
-                                    , the top navigation and side navigation will become static on scroll. Scroll down this page to see an example.
-                                </p>
+                 <form action="${pageContext.request.contextPath}/editarTurno" method="post">
+    <input type="hidden" name="id" value="<%= turno.getId() %>" />
+
+        <label>Fecha:</label>
+        <input type="date" name="fecha" value="<%= turno.getFecha() %>" class="form-control" required />
+
+        <label>Hora:</label>
+        <input type="time" name="hora" value="<%= turno.getHora() %>" class="form-control" required />
+
+        <label>Paciente:</label>
+        <select name="paciente" class="form-control">
+            <%
+                for (Paciente p : pacientes) {
+                    boolean selected = turno.getPaciente().getId() == p.getId();
+            %>
+                <option value="<%= p.getId() %>" <%= selected ? "selected" : "" %>><%= p.getNombre() %></option>
+            <%
+                }
+            %>
+        </select>
+
+        <label>Odontólogo:</label>
+        <select name="odontologo" class="form-control">
+            <%
+                for (Odontologo o : odontologos) {
+                    boolean selected = turno.getOdontologo().getId() == o.getId();
+            %>
+                <option value="<%= o.getId() %>" <%= selected ? "selected" : "" %>><%= o.getNombre() %></option>
+            <%
+                }
+            %>
+        </select>
+
+        <label>Estado:</label>
+        <select name="estado" class="form-control">
+            <option <%= turno.getEstado().equals("PROGRAMADO") ? "selected" : "" %>>PROGRAMADO</option>
+            <option <%= turno.getEstado().equals("CANCELADO") ? "selected" : "" %>>CANCELADO</option>
+            <option <%= turno.getEstado().equals("REALIZADO") ? "selected" : "" %>>REALIZADO</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary mt-3">Actualizar Cita</button>
+    </form>
                             </div>
                         </div>
                         <div style="height: 100vh"></div>
