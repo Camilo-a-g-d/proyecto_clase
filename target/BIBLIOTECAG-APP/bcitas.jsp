@@ -1,8 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.mycompany.odontologia.*" %>
-<%
-    TurnoDAO turnoDAO = new TurnoDAO();
-    List<Turno> turnos = turnoDAO.listarTurnos();
-%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -36,7 +33,7 @@
                         <li><a class="dropdown-item" href="#!">Proximamente una Confirguracion</a></li>
                         <li><a class="dropdown-item" href="#!">Proximamente un Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Cerrar sesi�n</a></li>
+                        <li><a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Cerrar sesión</a></li>
                     </ul>
                 </li>
             </ul>
@@ -101,44 +98,90 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Buscar Citas</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="Dashboard.jsp">Plataforma</a></li>
-                            <li class="breadcrumb-item active">Gestion / Buscar Citas</li>
-                        </ol>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                       <table class="table table-bordered table-striped">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Paciente</th>
-                                <th>Odont�logo</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                for (Turno t : turnos) {
-                            %>
-                            <tr>
-                                <td><%= t.getFecha() %></td>
-                                <td><%= t.getHora() %></td>
-                                <td><%= t.getPaciente().getNombre() %></td>
-                                <td><%= t.getOdontologo().getNombre() %></td>
-                                <td><%= t.getEstado() %></td>
-                            </tr>
-                            <%
-                                }
-                            %>
-                        </tbody>
-                    </table>
-                        </div>
-                        <div style="height: 100vh"></div>
-                        <div class="card mb-4"><div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div></div>
-                    </div>
+                    <div class="container mt-5">
+    <h2 class="mb-4">📚 Libros en Inventario</h2>
+
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#agregarLibroModal">
+        ➕ Agregar Libro
+    </button>
+
+    <table class="table table-bordered table-hover bg-white">
+        <thead class="table-dark">
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Cantidad</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+    List<Libro> libros = (List<Libro>) request.getAttribute("libros");
+    if (libros != null) {
+        for (Libro libro : libros) {
+%>
+<tr>
+    <td><%= libro.getId() %></td>
+    <td><%= libro.getTitulo() %></td>
+    <td><%= libro.getAutor() %></td>
+    <td><%= libro.getCategoria().getNombre() %></td>
+    <td><%= libro.getCantidad() %></td>
+</tr>
+<%
+        }
+    } else {
+%>
+<tr>
+    <td colspan="5" class="text-center text-muted">No hay libros cargados.</td>
+</tr>
+<%
+    }
+%>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para agregar libro -->
+<div class="modal fade" id="agregarLibroModal" tabindex="-1" aria-labelledby="agregarLibroModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content" action="${pageContext.request.contextPath}/libros" method="post">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarLibroModalLabel">Agregar Libro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" name="titulo" class="form-control" placeholder="Título" required>
+                    <label for="titulo">Título</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" name="autor" class="form-control" placeholder="Autor" required>
+                    <label for="autor">Autor</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" required>
+                    <label for="cantidad">Cantidad</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select name="categoria" class="form-select" required>
+                        <option selected disabled>Selecciona una categoría</option>
+                        <%
+                            List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
+                            for (Categoria c : categorias) {
+                        %>
+                            <option value="<%= c.getId() %>"><%= c.getNombre() %></option>
+                        <% } %>
+                    </select>
+                    <label for="categoria">Categoría</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>  
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">

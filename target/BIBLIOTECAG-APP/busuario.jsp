@@ -1,9 +1,11 @@
-<%@ page import="com.mycompany.odontologia.Usuario" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*, com.mycompany.odontologia.*" %>
+<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 8%; width: 55%; margin-left: 25%">
+        <%= msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 <%
-    Usuario u = (Usuario) session.getAttribute("usuario");
-    if (u == null) {
-        response.sendRedirect("index.jsp"); // o login.jsp
-        return;
+        session.removeAttribute("msg");
     }
 %>
 <!DOCTYPE html>
@@ -39,7 +41,7 @@
                         <li><a class="dropdown-item" href="#!">Proximamente una Confirguracion</a></li>
                         <li><a class="dropdown-item" href="#!">Proximamente un Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Cerrar sesión</a></li>
+                        <li><a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Cerrar sesiÃ³n</a></li>
                     </ul>
                 </li>
             </ul>
@@ -108,21 +110,30 @@
                         <h1 class="mt-4">Buscar Usuarios</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="Dashboard.jsp">Plataforma</a></li>
-                            <li class="breadcrumb-item active">Gestion / Buscar Usuarios</li>
+                            <li class="breadcrumb-item active">Gestion / Editar Perfil</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                             <h2>Editar Perfil</h2>
-                            <form action="editarPerfil" method="post">
-                                <input type="hidden" name="id" value="<%= u.getId() %>" />
-                                <label>Correo:</label>
-                                <input type="email" name="correo" value="<%= u.getCorreo() %>" required />
-                                <br>
-                                <label>Contraseña:</label>
-                                <input type="password" name="contrasena" value="<%= u.getContrasena() %>" required />
-                                <br>
-                                <button type="submit">Actualizar</button>
-                            </form>
+                             <h2 class="text-center my-4">Editar Perfil</h2>
+
+                           <form action="editarPerfil" method="post" class="needs-validation" novalidate>
+                               <input type="hidden" name="id" value="<%= u.getId() %>" />
+
+                               <div class="mb-3">
+                                   <label for="correo" class="form-label">Correo</label>
+                                   <input type="email" class="form-control" id="correo" name="correo" value="<%= u.getCorreo() %>" required />
+                               </div>
+
+                               <div class="mb-3">
+                                   <label for="contrasena" class="form-label">ContraseÃ±a</label>
+                                   <input type="password" class="form-control" id="contrasena" name="contrasena" value="<%= u.getContrasena() %>" required />
+                               </div>
+
+                               <div class="d-grid">
+                                   <button type="submit" class="btn btn-primary">Actualizar</button>
+                               </div>
+                           </form>
+
                             </div>
                         </div>
                         <div style="height: 100vh"></div>
@@ -145,5 +156,7 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
+
+
     </body>
 </html>

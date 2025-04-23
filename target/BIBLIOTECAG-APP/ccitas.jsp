@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*, com.mycompany.odontologia.*" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,7 +33,7 @@
                         <li><a class="dropdown-item" href="#!">Proximamente una Confirguracion</a></li>
                         <li><a class="dropdown-item" href="#!">Proximamente un Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Cerrar sesi�n</a></li>
+                        <li><a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">Cerrar sesión</a></li>
                     </ul>
                 </li>
             </ul>
@@ -96,58 +98,46 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Crear Citas</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="Dashboard.jsp">Plataforma</a></li>
-                            <li class="breadcrumb-item active">Gestion / Crear Citas</li>
-                        </ol>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                            <%@ page import="java.util.*, com.mycompany.odontologia.*" %>
-                            <%
-                                PacienteDAO pacienteDAO = new PacienteDAO();
-                                OdontologoDAO odontologoDAO = new OdontologoDAO();
-                                List<Paciente> pacientes = pacienteDAO.listarTodos();
-                                List<Odontologo> odontologos = odontologoDAO.listarTodos();
-                            %>
-                            <form action="${pageContext.request.contextPath}/crearTurno" method="post">
-                                <label>Fecha:</label>
-                                <input type="date" name="fecha" required class="form-control" />
+                    <div class="container mt-5">
+    <h2 class="mb-4 text-center">📦 Inventario de Libros</h2>
 
-                                <label>Hora:</label>
-                                <input type="time" name="hora" required class="form-control" />
+    <table class="table table-striped table-hover bg-white">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Cantidad</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+    List<Libro> libros = (List<Libro>) request.getAttribute("libros");
+    if (libros != null) {
+        for (Libro libro : libros) {
+%>
+<tr>
+    <td><%= libro.getId() %></td>
+    <td><%= libro.getTitulo() %></td>
+    <td><%= libro.getAutor() %></td>
+    <td><%= libro.getCategoria().getNombre() %></td>
+    <td><%= libro.getCantidad() %></td>
+</tr>
+<%
+        }
+    } else {
+%>
+<tr>
+    <td colspan="5" class="text-center text-muted">No hay libros cargados.</td>
+</tr>
+<%
+    }
+%>
 
-                                <label>Paciente:</label>
-                                <select name="paciente" class="form-control">
-                                    <%
-                                        for (Paciente p : pacientes) {
-                                    %>
-                                    <option value="<%= p.getId() %>"><%= p.getNombre() %></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-
-                                <label>Odont�logo:</label>
-                                <select name="odontologo" class="form-control">
-                                    <%
-                                        for (Odontologo o : odontologos) {
-                                    %>
-                                    <option value="<%= o.getId() %>"><%= o.getNombre() %> - <%= o.getEspecialidad() %></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-
-                                <button type="submit" class="btn btn-success mt-3">Guardar Cita</button>
-                            </form>
-
-                            </div>
-                        </div>
-                        <div style="height: 100vh"></div>
-                        <div class="card mb-4"><div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div></div>
-                    </div>
+        </tbody>
+    </table>
+</div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">

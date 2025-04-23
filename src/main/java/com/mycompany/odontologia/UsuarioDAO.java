@@ -26,4 +26,16 @@ public class UsuarioDAO {
             return null;
         }
     }
+
+public void actualizar(Usuario usuario) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        em.merge(usuario); // actualiza el registro existente
+        em.getTransaction().commit();
+    } finally {
+        em.close();
+    }
+}
+
 }

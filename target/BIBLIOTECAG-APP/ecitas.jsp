@@ -1,14 +1,5 @@
-<%@ page import="com.mycompany.odontologia.*, java.util.List" %>
-<%
-    Turno turno = (Turno) request.getAttribute("turno");
-    List<Paciente> pacientes = (List<Paciente>) request.getAttribute("pacientes");
-    List<Odontologo> odontologos = (List<Odontologo>) request.getAttribute("odontologos");
-
-    if (turno == null) {
-        out.println("<div class='alert alert-danger'>Turno no encontrado. Asegúrate de acceder desde el botón 'Editar' en el listado.</div>");
-        return;
-    }
-%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.mycompany.odontologia.*" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -106,63 +97,48 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Editar Citas</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="Dashboard.jsp">Plataforma</a></li>
-                            <li class="breadcrumb-item active">Gestion / Editar Citas</li>
-                        </ol>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                 <form action="${pageContext.request.contextPath}/editarTurno" method="post">
-    <input type="hidden" name="id" value="<%= turno.getId() %>" />
+                <div class="container mt-5">
+    <h2 class="mb-4">?? Editar Libro</h2>
 
-        <label>Fecha:</label>
-        <input type="date" name="fecha" value="<%= turno.getFecha() %>" class="form-control" required />
+    <form action="${pageContext.request.contextPath}/editarLibro" method="post">
+        <input type="hidden" name="id" value="<%= ((Libro)request.getAttribute("libro")).getId() %>" />
 
-        <label>Hora:</label>
-        <input type="time" name="hora" value="<%= turno.getHora() %>" class="form-control" required />
+        <div class="mb-3">
+            <label>Título:</label>
+            <input type="text" name="titulo" class="form-control"
+                   value="<%= ((Libro)request.getAttribute("libro")).getTitulo() %>" required>
+        </div>
 
-        <label>Paciente:</label>
-        <select name="paciente" class="form-control">
-            <%
-                for (Paciente p : pacientes) {
-                    boolean selected = turno.getPaciente().getId() == p.getId();
-            %>
-                <option value="<%= p.getId() %>" <%= selected ? "selected" : "" %>><%= p.getNombre() %></option>
-            <%
-                }
-            %>
-        </select>
+        <div class="mb-3">
+            <label>Autor:</label>
+            <input type="text" name="autor" class="form-control"
+                   value="<%= ((Libro)request.getAttribute("libro")).getAutor() %>" required>
+        </div>
 
-        <label>Odontólogo:</label>
-        <select name="odontologo" class="form-control">
-            <%
-                for (Odontologo o : odontologos) {
-                    boolean selected = turno.getOdontologo().getId() == o.getId();
-            %>
-                <option value="<%= o.getId() %>" <%= selected ? "selected" : "" %>><%= o.getNombre() %></option>
-            <%
-                }
-            %>
-        </select>
+        <div class="mb-3">
+            <label>Cantidad:</label>
+            <input type="number" name="cantidad" class="form-control"
+                   value="<%= ((Libro)request.getAttribute("libro")).getCantidad() %>" required>
+        </div>
 
-        <label>Estado:</label>
-        <select name="estado" class="form-control">
-            <option <%= turno.getEstado().equals("PROGRAMADO") ? "selected" : "" %>>PROGRAMADO</option>
-            <option <%= turno.getEstado().equals("CANCELADO") ? "selected" : "" %>>CANCELADO</option>
-            <option <%= turno.getEstado().equals("REALIZADO") ? "selected" : "" %>>REALIZADO</option>
-        </select>
+        <div class="mb-3">
+            <label>Categoría:</label>
+            <select name="categoria" class="form-select" required>
+                <%
+                    Libro libro = (Libro) request.getAttribute("libro");
+                    List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
+                    for (Categoria c : categorias) {
+                        boolean selected = c.getId() == libro.getCategoria().getId();
+                %>
+                    <option value="<%= c.getId() %>" <%= selected ? "selected" : "" %>><%= c.getNombre() %></option>
+                <% } %>
+            </select>
+        </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Actualizar Cita</button>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="inventario" class="btn btn-secondary">Cancelar</a>
     </form>
-                            </div>
-                        </div>
-                        <div style="height: 100vh"></div>
-                        <div class="card mb-4"><div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div></div>
-                    </div>
-                </main>
+</div>                </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
