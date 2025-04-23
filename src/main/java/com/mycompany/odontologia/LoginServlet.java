@@ -9,7 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -18,31 +17,26 @@ import java.io.IOException;
  */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
-    /**
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */ 
     @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String correo = request.getParameter("username");
-        String clave = request.getParameter("password");
+        String correo = req.getParameter("correo");
+        String contrasena = req.getParameter("password");
 
         UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = dao.validar(correo, clave);
+        Usuario u = dao.validar(correo, contrasena);
 
-        if (usuario != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", usuario);
-            response.sendRedirect("Dashboard.jsp");
+        if (u != null) {
+            req.getSession().setAttribute("usuario", u);
+            resp.sendRedirect("Dashboard.jsp");
         } else {
-            request.setAttribute("error", "Credenciales inválidas");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            req.setAttribute("error", "Credenciales incorrectas");
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
+        System.out.println("LOGIN - Correo recibido: " + correo);
+        System.out.println("LOGIN - Contraseña recibida: " + contrasena);
+
     }
+    
 }

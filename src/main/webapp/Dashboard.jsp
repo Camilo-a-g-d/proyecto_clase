@@ -1,7 +1,8 @@
+<%@ page import="com.mycompany.odontologia.Usuario" %>
 <%
-    HttpSession sesion = request.getSession(false);
-    if (sesion == null || sesion.getAttribute("usuario") == null) {
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+    Usuario u = (Usuario) session.getAttribute("usuario");
+    if (u == null) {
+        response.sendRedirect("index.jsp");
         return;
     }
 %>
@@ -21,7 +22,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="plataforma.jsp">Odontosanitas</a>
+            <a class="navbar-brand ps-3" href="plataforma.jsp">Bibliohuguito</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -49,12 +50,12 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Graficos</div>
+                            <div class="sb-sidenav-menu-heading">Biblioteca</div>
                             <a class="nav-link" href="plataforma.jsp">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Plataforma
+                                Libros
                             </a>
-                            <div class="sb-sidenav-menu-heading">Gestion de Odontoasanitas</div>
+                            <div class="sb-sidenav-menu-heading">Gestion de Libros</div>
          
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -64,25 +65,23 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Citas
+                                        Libros
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="bcitas.jsp">Buscar Citas</a>
-                                            <a class="nav-link" href="ccitas.jsp">Crear Citas</a>
-                                            <a class="nav-link" href="ecitas.jsp">Editar Citas</a>
+                                            <a class="nav-link" href="bcitas.jsp">Inventario</a>
+                                            <a class="nav-link" href="ccitas.jsp">Crear Inventario</a>
+                                            <a class="nav-link" href="ecitas.jsp">Editar Inventario</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Usuarios
+                                        Mi perfil
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="busuario.jsp">Buscar Usuarios</a>
-                                            <a class="nav-link" href="cusuario.jsp">Crear Usuario</a>
-                                            <a class="nav-link" href="eusuario.jsp">Editas Usuario</a>
                                         </nav>
                                     </div>
                                 </nav>

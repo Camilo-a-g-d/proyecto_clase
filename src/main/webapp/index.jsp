@@ -22,7 +22,7 @@
                                     <div class="card-body">
                                         <form action="login" method="post">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" name="username" type="email" placeholder="name@example.com" />
+                                                <input class="form-control" name="correo" type="email" placeholder="name@example.com" />
                                                 <label for="inputEmail">Correo</label>
                                             </div>
                                             <div class="form-floating mb-3">
@@ -35,9 +35,12 @@
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 
-                                                 <button type="submit" class="btn btn-primary">Ingresa</button>
+                                                 <button type="submit" class="btn btn-primary" href="Dashboard.jsp">Ingresa</button>
                                             </div>
                                         </form>
+                                    </div>
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="registro.jsp">¿No tienes cuenta?, Registrate</a></div>
                                     </div>
                                 </div>
                             </div>

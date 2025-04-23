@@ -8,10 +8,12 @@ import jakarta.persistence.*;
  * @author proye
  */
 @Entity
+
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private int id;
 
     private String correo;

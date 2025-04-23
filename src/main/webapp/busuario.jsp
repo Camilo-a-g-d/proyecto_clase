@@ -1,3 +1,11 @@
+<%@ page import="com.mycompany.odontologia.Usuario" %>
+<%
+    Usuario u = (Usuario) session.getAttribute("usuario");
+    if (u == null) {
+        response.sendRedirect("index.jsp"); // o login.jsp
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,10 +18,10 @@
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="plataforma.jsp">Odontosanitas</a>
+            <a class="navbar-brand ps-3" href="plataforma.jsp">Bibliohuguito</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -41,12 +49,12 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Graficos</div>
+                            <div class="sb-sidenav-menu-heading">Biblioteca</div>
                             <a class="nav-link" href="plataforma.jsp">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Plataforma
+                                Libros
                             </a>
-                            <div class="sb-sidenav-menu-heading">Gestion de Odontoasanitas</div>
+                            <div class="sb-sidenav-menu-heading">Gestion de Libros</div>
          
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -56,25 +64,23 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Citas
+                                        Libros
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="bcitas.jsp">Buscar Citas</a>
-                                            <a class="nav-link" href="ccitas.jsp">Crear Citas</a>
-                                            <a class="nav-link" href="ecitas.jsp">Editar Citas</a>
+                                            <a class="nav-link" href="bcitas.jsp">Inventario</a>
+                                            <a class="nav-link" href="ccitas.jsp">Crear Inventario</a>
+                                            <a class="nav-link" href="ecitas.jsp">Editar Inventario</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Usuarios
+                                        Mi perfil
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="busuario.jsp">Buscar Usuarios</a>
-                                            <a class="nav-link" href="cusuario.jsp">Crear Usuario</a>
-                                            <a class="nav-link" href="eusuario.jsp">Editas Usuario</a>
+                                            <a class="nav-link" href="busuario.jsp">Editar Perfil</a>
                                         </nav>
                                     </div>
                                 </nav>
@@ -106,13 +112,17 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <p class="mb-0">
-                                    This page is an example of using static navigation. By removing the
-                                    <code>.sb-nav-fixed</code>
-                                    class from the
-                                    <code>body</code>
-                                    , the top navigation and side navigation will become static on scroll. Scroll down this page to see an example.
-                                </p>
+                             <h2>Editar Perfil</h2>
+                            <form action="editarPerfil" method="post">
+                                <input type="hidden" name="id" value="<%= u.getId() %>" />
+                                <label>Correo:</label>
+                                <input type="email" name="correo" value="<%= u.getCorreo() %>" required />
+                                <br>
+                                <label>Contraseña:</label>
+                                <input type="password" name="contrasena" value="<%= u.getContrasena() %>" required />
+                                <br>
+                                <button type="submit">Actualizar</button>
+                            </form>
                             </div>
                         </div>
                         <div style="height: 100vh"></div>
